@@ -1,0 +1,76 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
+@import 'tailwindcss';
+
+
+/* @tailwind base;
+@tailwind components;
+@tailwind utilities; */
+
+
+@font-face {
+    font-family: 'ClashGrotesk Bold';
+    src: url('/fonts/ClashGrotesk-Bold.ttf') format('opentype');
+}
+
+@font-face {
+    font-family: 'ClashGrotesk Medium';
+    src: url('/fonts/ClashGrotesk-Medium.ttf') format('opentype');
+}
+
+@font-face {
+    font-family: 'ClashGrotesk';
+    src: url('/fonts/ClashGrotesk-Regular.ttf') format('opentype');
+}
+
+@font-face {
+    font-family: 'ClashGrotesk semiBold';
+    src: url('/fonts/ClashGrotesk-Semibold.ttf') format('opentype');
+}
+
+/*body {*/
+/*    min-height: 100vh;*/
+/*}*/
+
+
+.montserrat {
+    font-family: "Montserrat", sans-serif;
+}
+
+.groteskBold {
+    font-family: "ClashGrotesk Bold", sans-serif;
+    font-weight: 400;
+}
+
+.groteskMedium {
+    font-family: "ClashGrotesk Medium", sans-serif;
+    font-weight: 500;
+}
+
+.groteskSemiBold {
+    font-family: "ClashGrotesk semiBold", sans-serif;
+    font-weight: 600;
+}
+
+.grotesk {
+    font-family: "ClashGrotesk", sans-serif;
+    font-weight: 400;
+}
+
+
+.custom-date-range .rdrSelected,
+.custom-date-range .rdrInRange,
+.custom-date-range .rdrDayInRange,
+.custom-date-range .rdrDayStartPreview,
+.custom-date-range .rdrDayEndPreview,
+.custom-date-range .rdrDayInPreview {
+    background-color: #27337C !important;
+    border-color: #27337C !important;
+}
+.custom-date-range .rdrDayToday .rdrDayNumber span:after {
+    background: #27337C !important;
+}
+
+
+.g.seat-group {
+    pointer-events: all;
+}
