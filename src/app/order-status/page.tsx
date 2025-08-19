@@ -456,7 +456,7 @@ interface TicketWithoutSeat {
 
 //CODE AFTER ORDER CANCEL UPDATE
 const PaymentSuccessful = () => {
-
+ 
     const searchParams = useSearchParams();
     const order_id = searchParams.get("orderId");
     const status = searchParams.get("status");
