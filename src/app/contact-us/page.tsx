@@ -4,10 +4,10 @@ import HeroSection from "@/components/HeroSection";
 import SectionTitle from "@/components/SectionTitle";
 import Link from "next/link";
 import Newsletter from "@/components/NewsLetter";
-import { TextField, FormControl, FormLabel, RadioGroup, FormControlLabel, Radio } from "@mui/material";
-import { z } from "zod";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
+import {TextField, FormControl, FormLabel, RadioGroup, FormControlLabel, Radio} from "@mui/material";
+import {z} from "zod";
+import {Controller, useForm} from "react-hook-form";
+import {zodResolver} from "@hookform/resolvers/zod";
 import {useInquiryApi} from "@/hooks/useUser";
 
 interface HeroProps {
@@ -35,7 +35,7 @@ const formSchema = z.object({
         .regex(/^\+?\d{10,15}$/, "Phone number must be 10-15 digits")
         .nonempty("Phone Number is required"),
     subject: z.enum(["General Inquiry", "Refund Request", "Technical Issue", "Event Listing"], {
-        errorMap: () => ({ message: "Subject is required" }),
+        errorMap: () => ({message: "Subject is required"}),
     }),
     message: z.string().min(10, "Message must be at least 10 characters").nonempty("Message is required"),
 });
@@ -51,7 +51,8 @@ const ContactUsPage = () => {
         register,
         handleSubmit,
         reset,
-        formState: { errors, isSubmitting },
+        control,
+        formState: {errors, isSubmitting},
     } = useForm<FormValues>({
         resolver: zodResolver(formSchema),
         defaultValues: {
@@ -90,16 +91,18 @@ const ContactUsPage = () => {
 
     return (
         <div className="min-h-screen">
-            <HeroSection hero={hero} />
+            <HeroSection hero={hero}/>
             <div className="py-8 px-4 sm:px-6 lg:px-8 rounded-b-[50px] lg:rounded-b-[100px] -mt-20 bg-[#F4FCFF]">
                 <div className="max-w-7xl mt-20 mx-auto">
                     <div>
-                        <SectionTitle title="Contact Us" />
+                        <SectionTitle title="Contact Us"/>
                     </div>
                     <div className="py-6 sm:py-8 lg:py-10">
-                        <div className="p-2 sm:p-4 flex flex-col lg:flex-row gap-4 sm:gap-6 bg-white rounded-md shadow-md">
+                        <div
+                            className="p-2 sm:p-4 flex flex-col lg:flex-row gap-4 sm:gap-6 bg-white rounded-md shadow-md">
                             {/* Contact Information */}
-                            <div className="w-full 2xl:w-1/3 lg:2/5 bg-[#27337C] text-white p-4 sm:p-6 md:p-8 lg:p-10 rounded-lg">
+                            <div
+                                className="w-full 2xl:w-1/3 lg:2/5 bg-[#27337C] text-white p-4 sm:p-6 md:p-8 lg:p-10 rounded-lg">
                                 <h3 className="text-base sm:text-lg md:text-xl lg:text-2xl xl:text-[28px] font-inter font-semibold mb-3 sm:mb-4">
                                     Contact Information
                                 </h3>
@@ -107,9 +110,11 @@ const ContactUsPage = () => {
                                     Say something to start a live chat!
                                 </p>
                                 <div className="space-y-4 sm:space-y-6 mt-6 sm:mt-10 lg:mt-20">
-                                    <div className="text-xs sm:text-sm lg:text-base font-inter gap-4 flex justify-start items-start">
-                                        <svg width="35" height="36" viewBox="0 0 35 36" fill="none" className="w-8 h-8 sm:w-10 sm:h-10" xmlns="http://www.w3.org/2000/svg">
-                                            <circle cx="17.5" cy="18.3949" r="17.5" fill="#F6F5FF" />
+                                    <div
+                                        className="text-xs sm:text-sm lg:text-base font-inter gap-4 flex justify-start items-start">
+                                        <svg width="35" height="36" viewBox="0 0 35 36" fill="none"
+                                             className="w-8 h-8 sm:w-10 sm:h-10" xmlns="http://www.w3.org/2000/svg">
+                                            <circle cx="17.5" cy="18.3949" r="17.5" fill="#F6F5FF"/>
                                             <path
                                                 fillRule="evenodd"
                                                 clipRule="evenodd"
@@ -121,9 +126,11 @@ const ContactUsPage = () => {
                       487/4K, <br/>Old Kottawa Road,<br/>Udahamulla,Nugegoda
                     </span>
                                     </div>
-                                    <div className="text-xs sm:text-sm lg:text-base font-inter gap-4 flex justify-start items-center">
-                                        <svg width="35" height="36" viewBox="0 0 35 36" fill="none" className="w-8 h-8 sm:w-10 sm:h-10" xmlns="http://www.w3.org/2000/svg">
-                                            <circle cx="17.5" cy="18.3949" r="17.5" fill="#F6F5FF" />
+                                    <div
+                                        className="text-xs sm:text-sm lg:text-base font-inter gap-4 flex justify-start items-center">
+                                        <svg width="35" height="36" viewBox="0 0 35 36" fill="none"
+                                             className="w-8 h-8 sm:w-10 sm:h-10" xmlns="http://www.w3.org/2000/svg">
+                                            <circle cx="17.5" cy="18.3949" r="17.5" fill="#F6F5FF"/>
                                             <path
                                                 fillRule="evenodd"
                                                 clipRule="evenodd"
@@ -133,10 +140,13 @@ const ContactUsPage = () => {
                                         </svg>
                                         <span className="max-w-64">quickseats.lk@gmail.com</span>
                                     </div>
-                                    <div className="text-xs sm:text-sm lg:text-base font-inter gap-4 flex justify-start items-center">
-                                        <svg width="35" height="36" viewBox="0 0 35 36" fill="none" className="w-8 h-8 sm:w-10 sm:h-10" xmlns="http://www.w3.org/2000/svg">
-                                            <circle cx="17.5" cy="18.3949" r="17.5" fill="#F6F5FF" />
-                                            <rect width="24" height="24" transform="translate(5 6.8949)" fill="#F6F5FF" />
+                                    <div
+                                        className="text-xs sm:text-sm lg:text-base font-inter gap-4 flex justify-start items-center">
+                                        <svg width="35" height="36" viewBox="0 0 35 36" fill="none"
+                                             className="w-8 h-8 sm:w-10 sm:h-10" xmlns="http://www.w3.org/2000/svg">
+                                            <circle cx="17.5" cy="18.3949" r="17.5" fill="#F6F5FF"/>
+                                            <rect width="24" height="24" transform="translate(5 6.8949)"
+                                                  fill="#F6F5FF"/>
                                             <path
                                                 fillRule="evenodd"
                                                 clipRule="evenodd"
@@ -150,27 +160,34 @@ const ContactUsPage = () => {
                                     </div>
                                 </div>
                                 <div className="flex space-x-3 sm:space-x-4 relative mt-5 sm:mt-16">
-                                    <Link href="#" className="text-white">
-                                        <svg width="40" height="40" viewBox="0 0 45 46" fill="none" className="w-8 h-8 sm:w-10 sm:h-10" xmlns="http://www.w3.org/2000/svg">
-                                            <circle cx="22.5" cy="23.3662" r="21.5" fill="white" stroke="#2D2A70" strokeWidth="2" />
+                                    <Link href="https://www.facebook.com/share/1CKXG1pyuc/" className="text-white">
+                                        <svg width="40" height="40" viewBox="0 0 45 46" fill="none"
+                                             className="w-8 h-8 sm:w-10 sm:h-10" xmlns="http://www.w3.org/2000/svg">
+                                            <circle cx="22.5" cy="23.3662" r="21.5" fill="white" stroke="#2D2A70"
+                                                    strokeWidth="2"/>
                                             <path
                                                 d="M22 13.8662C16.477 13.8662 12 18.3432 12 23.8662C12 28.8572 15.657 32.9942 20.438 33.7452V26.7562H17.898V23.8662H20.438V21.6632C20.438 19.1572 21.93 17.7732 24.215 17.7732C25.309 17.7732 26.453 17.9682 26.453 17.9682V20.4282H25.193C23.95 20.4282 23.563 21.1992 23.563 21.9902V23.8662H26.336L25.893 26.7562H23.563V33.7452C28.343 32.9952 32 28.8562 32 23.8662C32 18.3432 27.523 13.8662 22 13.8662Z"
                                                 fill="#27337C"
                                             />
                                         </svg>
                                     </Link>
-                                    <Link href="#" className="text-white">
-                                        <svg width="40" height="40" viewBox="0 0 45 46" fill="none" className="w-8 h-8 sm:w-10 sm:h-10" xmlns="http://www.w3.org/2000/svg">
-                                            <circle cx="22.5" cy="23.3662" r="21.5" fill="white" stroke="#2D2A70" strokeWidth="2" />
+                                    <Link href="https://www.instagram.com/quick_seats?igsh=ZGkyaXE1ZmZscWJp"
+                                          className="text-white">
+                                        <svg width="40" height="40" viewBox="0 0 45 46" fill="none"
+                                             className="w-8 h-8 sm:w-10 sm:h-10" xmlns="http://www.w3.org/2000/svg">
+                                            <circle cx="22.5" cy="23.3662" r="21.5" fill="white" stroke="#2D2A70"
+                                                    strokeWidth="2"/>
                                             <path
                                                 d="M23 13.8662C25.717 13.8662 26.056 13.8762 27.122 13.9262C28.187 13.9762 28.912 14.1432 29.55 14.3912C30.21 14.6452 30.766 14.9892 31.322 15.5442C31.8305 16.0441 32.224 16.6488 32.475 17.3162C32.722 17.9532 32.89 18.6792 32.94 19.7442C32.987 20.8102 33 21.1492 33 23.8662C33 26.5832 32.99 26.9222 32.94 27.9882C32.89 29.0532 32.722 29.7782 32.475 30.4162C32.2247 31.084 31.8311 31.6888 31.322 32.1882C30.822 32.6965 30.2173 33.09 29.55 33.3412C28.913 33.5882 28.187 33.7562 27.122 33.8062C26.056 33.8532 25.717 33.8662 23 33.8662C20.283 33.8662 19.944 33.8562 18.878 33.8062C17.813 33.7562 17.088 33.5882 16.45 33.3412C15.7823 33.0907 15.1775 32.6972 14.678 32.1882C14.1694 31.6884 13.7759 31.0837 13.525 30.4162C13.277 29.7792 13.11 29.0532 13.06 27.9882C13.013 26.9222 13 26.5832 13 23.8662C13 21.1492 13.01 20.8102 13.06 19.7442C13.11 18.6782 13.277 17.9542 13.525 17.3162C13.7752 16.6484 14.1688 16.0435 14.678 15.5442C15.1777 15.0354 15.7824 14.6419 16.45 14.3912C17.088 14.1432 17.812 13.9762 18.878 13.9262C19.944 13.8792 20.283 13.8662 23 13.8662ZM23 18.8662C21.6739 18.8662 20.4021 19.393 19.4645 20.3307C18.5268 21.2684 18 22.5401 18 23.8662C18 25.1923 18.5268 26.4641 19.4645 27.4017C20.4021 28.3394 21.6739 28.8662 23 28.8662C24.3261 28.8662 25.5979 28.3394 26.5355 27.4017C27.4732 26.4641 28 25.1923 28 23.8662C28 22.5401 27.4732 21.2684 26.5355 20.3307C25.5979 19.393 24.3261 18.8662 23 18.8662ZM29.5 18.6162C29.5 18.2847 29.3683 17.9667 29.1339 17.7323C28.8995 17.4979 28.5815 17.3662 28.25 17.3662C27.9185 17.3662 27.6005 17.4979 27.3661 17.7323C27.1317 17.9667 27 18.2847 27 18.6162C27 18.9477 27.1317 19.2657 27.3661 19.5001C27.6005 19.7345 27.9185 19.8662 28.25 19.8662C28.5815 19.8662 28.8995 19.7345 29.1339 19.5001C29.3683 19.2657 29.5 18.9477 29.5 18.6162ZM23 20.8662C23.7956 20.8662 24.5587 21.1823 25.1213 21.7449C25.6839 22.3075 26 23.0706 26 23.8662C26 24.6619 25.6839 25.4249 25.1213 25.9875C24.5587 26.5501 23.7956 26.8662 23 26.8662C22.2044 26.8662 21.4413 26.5501 20.8787 25.9875C20.3161 25.4249 20 24.6619 20 23.8662C20 23.0706 20.3161 22.3075 20.8787 21.7449C21.4413 21.1823 22.2044 20.8662 23 20.8662Z"
                                                 fill="#27337C"
                                             />
                                         </svg>
                                     </Link>
-                                    <Link href="#" className="text-white">
-                                        <svg width="40" height="40" viewBox="0 0 45 46" fill="none" className="w-8 h-8 sm:w-10 sm:h-10" xmlns="http://www.w3.org/2000/svg">
-                                            <circle cx="22.5" cy="23.3662" r="21.5" fill="white" stroke="#2D2A70" strokeWidth="2" />
+                                    <Link href="https://www.tiktok.com/@quick.seats?_t=ZS-8xWVHI1TyZ0&_r=1" className="text-white">
+                                        <svg width="40" height="40" viewBox="0 0 45 46" fill="none"
+                                             className="w-8 h-8 sm:w-10 sm:h-10" xmlns="http://www.w3.org/2000/svg">
+                                            <circle cx="22.5" cy="23.3662" r="21.5" fill="white" stroke="#2D2A70"
+                                                    strokeWidth="2"/>
                                             <path
                                                 d="M16 18.8662C17.1046 18.8662 18 17.9708 18 16.8662C18 15.7616 17.1046 14.8662 16 14.8662C14.8954 14.8662 14 15.7616 14 16.8662C14 17.9708 14.8954 18.8662 16 18.8662Z"
                                                 fill="#27337C"
@@ -185,9 +202,12 @@ const ContactUsPage = () => {
                                             />
                                         </svg>
                                     </Link>
-                                    <Link href="#" className="text-white">
-                                        <svg width="40" height="40" viewBox="0 0 45 46" fill="none" className="w-8 h-8 sm:w-10 sm:h-10" xmlns="http://www.w3.org/2000/svg">
-                                            <circle cx="22.5" cy="23.3662" r="21.5" fill="white" stroke="#2D2A70" strokeWidth="2" />
+                                    <Link href="https://youtube.com/@quickseats-e2e?si=0UK-FfyMW0ps5MKj"
+                                          className="text-white">
+                                        <svg width="40" height="40" viewBox="0 0 45 46" fill="none"
+                                             className="w-8 h-8 sm:w-10 sm:h-10" xmlns="http://www.w3.org/2000/svg">
+                                            <circle cx="22.5" cy="23.3662" r="21.5" fill="white" stroke="#2D2A70"
+                                                    strokeWidth="2"/>
                                             <path
                                                 d="M21 26.8662L26.19 23.8662L21 20.8662V26.8662ZM32.56 19.0362C32.69 19.5062 32.78 20.1362 32.84 20.9362C32.91 21.7362 32.94 22.4262 32.94 23.0262L33 23.8662C33 26.0562 32.84 27.6662 32.56 28.6962C32.31 29.5962 31.73 30.1762 30.83 30.4262C30.36 30.5562 29.5 30.6462 28.18 30.7062C26.88 30.7762 25.69 30.8062 24.59 30.8062L23 30.8662C18.81 30.8662 16.2 30.7062 15.17 30.4262C14.27 30.1762 13.69 29.5962 13.44 28.6962C13.31 28.2262 13.22 27.5962 13.16 26.7962C13.09 25.9962 13.06 25.3062 13.06 24.7062L13 23.8662C13 21.6762 13.16 20.0662 13.44 19.0362C13.69 18.1362 14.27 17.5562 15.17 17.3062C15.64 17.1762 16.5 17.0862 17.82 17.0262C19.12 16.9562 20.31 16.9262 21.41 16.9262L23 16.8662C27.19 16.8662 29.8 17.0262 30.83 17.3062C31.73 17.5562 32.31 18.1362 32.56 19.0362Z"
                                                 fill="#27337C"
@@ -202,8 +222,10 @@ const ContactUsPage = () => {
                                     Reach out to us for any inquiries
                                 </h3>
                                 <form onSubmit={handleSubmit(onSubmit)} className="space-y-4 sm:space-y-6">
-                                    <div className="flex flex-col sm:flex-row justify-between mt-8 sm:mt-12 lg:mt-16 gap-4 sm:gap-6 lg:gap-10">
-                                        <div className="w-full flex flex-col gap-2 font-inter font-medium text-[#8D8D8D] text-xs sm:text-sm">
+                                    <div
+                                        className="flex flex-col sm:flex-row justify-between mt-8 sm:mt-12 lg:mt-16 gap-4 sm:gap-6 lg:gap-10">
+                                        <div
+                                            className="w-full flex flex-col gap-2 font-inter font-medium text-[#8D8D8D] text-xs sm:text-sm">
                                             <p>First Name</p>
                                             <TextField
                                                 id="firstName"
@@ -213,7 +235,8 @@ const ContactUsPage = () => {
                                                 helperText={errors.firstName?.message}
                                             />
                                         </div>
-                                        <div className="w-full flex flex-col gap-2 font-inter font-medium text-[#8D8D8D] text-xs sm:text-sm">
+                                        <div
+                                            className="w-full flex flex-col gap-2 font-inter font-medium text-[#8D8D8D] text-xs sm:text-sm">
                                             <p>Last Name</p>
                                             <TextField
                                                 id="lastName"
@@ -224,8 +247,10 @@ const ContactUsPage = () => {
                                             />
                                         </div>
                                     </div>
-                                    <div className="flex flex-col sm:flex-row justify-between mt-8 sm:mt-12 lg:mt-16 gap-4 sm:gap-6 lg:gap-10">
-                                        <div className="w-full flex flex-col gap-2 font-inter font-medium text-[#8D8D8D] text-xs sm:text-sm">
+                                    <div
+                                        className="flex flex-col sm:flex-row justify-between mt-8 sm:mt-12 lg:mt-16 gap-4 sm:gap-6 lg:gap-10">
+                                        <div
+                                            className="w-full flex flex-col gap-2 font-inter font-medium text-[#8D8D8D] text-xs sm:text-sm">
                                             <p>Email</p>
                                             <TextField
                                                 id="email"
@@ -235,7 +260,8 @@ const ContactUsPage = () => {
                                                 helperText={errors.email?.message}
                                             />
                                         </div>
-                                        <div className="w-full flex flex-col gap-2 font-inter font-medium text-[#8D8D8D] text-xs sm:text-sm">
+                                        <div
+                                            className="w-full flex flex-col gap-2 font-inter font-medium text-[#8D8D8D] text-xs sm:text-sm">
                                             <p>Phone Number</p>
                                             <TextField
                                                 id="phoneNumber"
@@ -258,42 +284,57 @@ const ContactUsPage = () => {
                                             >
                                                 Select Subject?
                                             </FormLabel>
-                                            <RadioGroup
-                                                row
-                                                aria-labelledby="demo-row-radio-buttons-group-label"
-                                                {...register("subject")}
-                                                defaultValue="General Inquiry"
-                                                style={{ fontSize: "12px", color: "#011C2A" }}
-                                            >
-                                                <FormControlLabel
-                                                    value="General Inquiry"
-                                                    control={<Radio />}
-                                                    label="General Inquiry"
-                                                    style={{ fontSize: "12px", color: "#011C2A" }}
-                                                />
-                                                <FormControlLabel
-                                                    value="Refund Request"
-                                                    control={<Radio />}
-                                                    label="Refund Request"
-                                                    style={{ fontSize: "12px", color: "#011C2A" }}
-                                                />
-                                                <FormControlLabel
-                                                    value="Technical Issue"
-                                                    control={<Radio />}
-                                                    label="Technical Issue"
-                                                    style={{ fontSize: "12px", color: "#011C2A" }}
-                                                />
-                                                <FormControlLabel
-                                                    value="Event Listing"
-                                                    control={<Radio />}
-                                                    label="Event Listing"
-                                                    style={{ fontSize: "12px", color: "#011C2A" }}
-                                                />
-                                            </RadioGroup>
-                                            {errors.subject && <p className="text-red-500 text-xs mt-1">{errors.subject.message}</p>}
+                                            {/*<RadioGroup*/}
+                                            {/*    row*/}
+                                            {/*    aria-labelledby="demo-row-radio-buttons-group-label"*/}
+                                            {/*    {...register("subject")}*/}
+                                            {/*    defaultValue="General Inquiry"*/}
+                                            {/*    style={{ fontSize: "12px", color: "#011C2A" }}*/}
+                                            {/*>*/}
+                                            <Controller
+                                                name="subject"
+                                                control={control}
+                                                render={({field}) => (
+                                                    <RadioGroup
+                                                        row
+                                                        aria-labelledby="demo-row-radio-buttons-group-label"
+                                                        {...field}
+                                                        onChange={(e) => field.onChange(e.target.value)} // Update form state on change
+                                                        value={field.value || "General Inquiry"} // Ensure controlled value
+                                                    >
+                                                        <FormControlLabel
+                                                            value="General Inquiry"
+                                                            control={<Radio/>}
+                                                            label="General Inquiry"
+                                                            style={{fontSize: "12px", color: "#011C2A"}}
+                                                        />
+                                                        <FormControlLabel
+                                                            value="Refund Request"
+                                                            control={<Radio/>}
+                                                            label="Refund Request"
+                                                            style={{fontSize: "12px", color: "#011C2A"}}
+                                                        />
+                                                        <FormControlLabel
+                                                            value="Technical Issue"
+                                                            control={<Radio/>}
+                                                            label="Technical Issue"
+                                                            style={{fontSize: "12px", color: "#011C2A"}}
+                                                        />
+                                                        <FormControlLabel
+                                                            value="Event Listing"
+                                                            control={<Radio/>}
+                                                            label="Event Listing"
+                                                            style={{fontSize: "12px", color: "#011C2A"}}
+                                                        />
+                                                    </RadioGroup>
+                                                )}
+                                            />
+                                            {errors.subject &&
+                                                <p className="text-red-500 text-xs mt-1">{errors.subject.message}</p>}
                                         </FormControl>
                                     </div>
-                                    <div className="w-full flex flex-col gap-2 mt-8 sm:mt-12 lg:mt-16 font-inter font-medium text-[#8D8D8D] text-xs sm:text-sm">
+                                    <div
+                                        className="w-full flex flex-col gap-2 mt-8 sm:mt-12 lg:mt-16 font-inter font-medium text-[#8D8D8D] text-xs sm:text-sm">
                                         <p>Message</p>
                                         <TextField
                                             id="message"
@@ -321,7 +362,7 @@ const ContactUsPage = () => {
                     </div>
                 </div>
             </div>
-            <Newsletter />
+            <Newsletter/>
         </div>
     );
 };

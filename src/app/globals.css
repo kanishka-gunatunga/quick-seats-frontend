@@ -74,3 +74,7 @@
 .g.seat-group {
     pointer-events: all;
 }
+
+.css-rizt0-MuiTypography-root {
+    font-size: 0.9rem !important;
+}
