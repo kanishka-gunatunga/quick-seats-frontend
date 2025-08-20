@@ -22,7 +22,7 @@ const Footer: React.FC = () => {
     const socialLinks = [
         {image: "/facebook.png", link: "https://www.facebook.com/share/1CKXG1pyuc/"},
         {image: "/instagram.png", link: "https://www.instagram.com/quick_seats?igsh=ZGkyaXE1ZmZscWJp"},
-        {image: "/linkedin.png", link: "https://www.tiktok.com/@quick.seats?_t=ZS-8xWVHI1TyZ0&_r=1"},
+        {image: "/tiktok.png", link: "https://www.tiktok.com/@quick.seats?_t=ZS-8xWVHI1TyZ0&_r=1"},
         {image: "/youtube.png", link: "https://youtube.com/@quickseats-e2e?si=0UK-FfyMW0ps5MKj"},
     ]
 
