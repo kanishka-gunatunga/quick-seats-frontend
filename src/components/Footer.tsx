@@ -9,7 +9,7 @@ const Footer: React.FC = () => {
         {title: "About Us", link: "/about-us"},
         {title: "Contact Us", link: "/contact-us"},
         {title: "Sign In", link: "/login"},
-        {title: "Register", link: "/register"}
+        {title: "Sign Up", link: "/register"}
     ];
 
     const usefulLinks = [
