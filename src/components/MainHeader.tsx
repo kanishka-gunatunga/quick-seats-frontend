@@ -1,132 +1,15 @@
-// // "use client";
-// // import * as React from "react";
-// // import HeroSection from "./HeroSection";
-// // import Nav from "@/components/Nav";
-// //
-// // const MainHeader = () => {
-// //   return (
-// //     <main className="overflow-hidden font-medium rounded-none">
-// //       <div className="flex relative flex-col w-full rounded-none min-h-[600px] max-md:max-w-full">
-// //         <img
-// //           src="/home-hero.png"
-// //           alt="Background"
-// //           className="object-cover absolute inset-0 size-full"
-// //         />
-// //         <div className="relative px-20 pt-10 pb-40 w-full rounded-none max-md:px-5 max-md:pb-24 max-md:max-w-full">
-// //           <Nav/>
-// //           <HeroSection />
-// //         </div>
-// //       </div>
-// //     </main>
-// //   );
-// // }
-// //
-// // export default MainHeader;
-//
-// //
-// // "use client";
-// //
-// // import React from "react";
-// // import Image from "next/image";
-// // import HeroSection from "./HeroSection";
-// // import Nav from "@/components/Nav";
-// //
-// // const MainHeader: React.FC = () => {
-// //   return (
-// //       <main className="relative w-full font-medium overflow-hidden">
-// //         <div className="relative flex flex-col w-full min-h-[600px] sm:min-h-[700px]">
-// //           <Image
-// //               src="/home-hero.png"
-// //               alt="Background"
-// //               fill
-// //               className="object-cover"
-// //               priority
-// //               quality={85}
-// //           />
-// //           <div className="relative z-10 px-4 py-8 sm:px-6 md:px-16 md:py-12 lg:px-20 lg:py-16 w-full max-w-7xl mx-auto">
-// //             <Nav />
-// //             <HeroSection />
-// //           </div>
-// //         </div>
-// //       </main>
-// //   );
-// // };
-// //
-// // export default MainHeader;
-//
-//
-// "use client";
-//
-// import React from "react";
-// import Image from "next/image";
-// import Nav from "@/components/Nav";
-//
-// const Hero: React.FC = () => {
-//     return (
-//         <main className="relative w-full min-h-[600px] font-medium">
-//             {/* Background Image */}
-//             <Image
-//                 src="/hero.png"
-//                 alt="Background"
-//                 fill
-//                 className="object-cover rounded-b-[100px]"
-//                 priority
-//                 quality={85}
-//             />
-//
-//             {/* Content */}
-//             <div
-//                 className="relative z-10 flex flex-col w-full max-w-7xl mx-auto px-4 py-8 sm:px-6 md:px-10 md:py-12 lg:py-16">
-//                 {/* Navigation */}
-//                 <Nav/>
-//
-//                 {/* Hero Content */}
-//                 <section className="mt-10 md:mt-16 lg:mt-20 flex flex-col items-start max-w-2xl">
-//                     <h1 className="text-4xl sm:text-5xl md:text-6xl groteskBold text-white leading-6 max-w-full">
-//                         Let’s Book Your Ticket
-//                     </h1>
-//                     <p className="mt-4 text-lg sm:text-xl md:text-2xl font-inter font-light text-white max-w-full">
-//                         Discover your favorite entertainment right here
-//                     </p>
-//
-//                     {/* Search Bar */}
-//                     <form
-//                         className="mt-8 w-full max-w-md bg-white rounded-lg flex flex-col sm:flex-row items-stretch text-lg">
-//                         <input
-//                             type="text"
-//                             placeholder="Search for events, Artists"
-//                             className="grow px-4 py-3 sm:rounded-l-lg rounded-t-lg sm:rounded-tr-none font-inter font-medium text-[#27337C] outline-none sm:border-r-0 border-b sm:border-b-0 border-gray-300"
-//                             aria-label="Search for events or artists"
-//                         />
-//                         <button
-//                             type="submit"
-//                             className="flex items-center font-inter font-medium text-lg justify-center gap-2 px-6 py-3 bg-[#27337C] text-white sm:rounded-r-lg rounded-b-lg sm:rounded-bl-none hover:bg-indigo-800 transition-colors duration-200"
-//                             aria-label="Search"
-//                         >
-//                             <Image
-//                                 src="/search.png"
-//                                 alt=""
-//                                 width={24}
-//                                 height={24}
-//                                 className="object-contain"
-//                             />
-//                             <span>Search</span>
-//                         </button>
-//                     </form>
-//                 </section>
-//             </div>
-//         </main>
-//     );
-// };
-//
-// export default Hero;
-
 "use client";
 
 import React, {useEffect, useState} from "react";
 import Image from "next/image";
 import Nav from "@/components/Nav";
 import {useRouter} from "next/navigation";
+import dayjs from "dayjs";
+import utc from "dayjs/plugin/utc";
+import timezone from "dayjs/plugin/timezone";
+
+dayjs.extend(utc);
+dayjs.extend(timezone);
 
 interface HeroProps {
     image: string;
@@ -148,23 +31,33 @@ const Hero = ({hero}: { hero: HeroProps }) => {
     const [searchQuery, setSearchQuery] = useState("");
     const router = useRouter();
 
+    console.log("time :", hero.time);
+
     useEffect(() => {
         if (hero.type === "countdown" && hero.time) {
-            const targetDate = new Date(hero.time).getTime();
+
+            const targetDate = dayjs.utc(hero.time).tz("Asia/Colombo").subtract(5, "hour").subtract(30, "minute");
+
             const interval = setInterval(() => {
-                const now = new Date().getTime();
-                const distance = targetDate - now;
+                const now = dayjs.utc();
+                const diff = targetDate.diff(now);
 
-                const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-                const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-                const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-                const seconds = Math.floor((distance % (1000 * 60)) / 1000);
-
-                setCountdown({days, hours, minutes, seconds});
-
-                if (distance < 0) {
+                if (diff <= 0) {
                     clearInterval(interval);
-                    setCountdown({days: 0, hours: 0, minutes: 0, seconds: 0});
+                    setCountdown({ days: 0, hours: 0, minutes: 0, seconds: 0 });
+                } else {
+                    const days = targetDate.diff(now, "day");
+                    const hours = targetDate.diff(now.add(days, "day"), "hour");
+                    const minutes = targetDate.diff(
+                        now.add(days, "day").add(hours, "hour"),
+                        "minute"
+                    );
+                    const seconds = targetDate.diff(
+                        now.add(days, "day").add(hours, "hour").add(minutes, "minute"),
+                        "second"
+                    );
+
+                    setCountdown({ days, hours, minutes, seconds });
                 }
             }, 1000);
 
