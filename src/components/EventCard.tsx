@@ -14,7 +14,15 @@ interface EventCardProps {
     slug: string;
     all_seats_booked: number;
     all_ticket_without_seats_booked: number;
-    ticket_details: { price: number; ticketCount: number | null; ticketTypeId: number; hasTicketCount: boolean; bookedTicketCount: number; ticketTypeName: string }[];
+    ticket_details: {
+        price: number;
+        ticketCount: number | null;
+        ticketTypeId: number;
+        hasTicketCount: boolean;
+        bookedTicketCount: number;
+        ticketTypeName: string
+    }[];
+    upcoming_event: number;
 }
 
 const EventCard: React.FC<EventCardProps> = ({
@@ -28,6 +36,7 @@ const EventCard: React.FC<EventCardProps> = ({
                                                  all_seats_booked,
                                                  all_ticket_without_seats_booked,
                                                  ticket_details,
+                                                 upcoming_event
                                              }) => {
 
     const hasNullTicketCount = ticket_details.some((ticket) => ticket.ticketCount === null);
@@ -38,16 +47,33 @@ const EventCard: React.FC<EventCardProps> = ({
         ? all_seats_booked === 1
         : all_seats_booked === 1 && all_ticket_without_seats_booked === 1;
 
+    const isUpcoming = upcoming_event === 1;
+
+    // const button = (
+    //     <button
+    //         className={`mt-6 w-full px-6 py-3 font-inter font-medium text-sm rounded-b-md border-2 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-indigo-500
+    //             ${isSoldOut
+    //             ? "bg-red-600 text-white border-red-600 opacity-50 cursor-not-allowed"
+    //             : "bg-[#27337C] text-white border-[#27337C] cursor-pointer hover:bg-indigo-800"}`}
+    //         disabled={isSoldOut}
+    //         aria-disabled={isSoldOut}
+    //     >
+    //         {isSoldOut ? "Sold Out" : "Buy Tickets"}
+    //     </button>
+    // );
+
     const button = (
         <button
             className={`mt-6 w-full px-6 py-3 font-inter font-medium text-sm rounded-b-md border-2 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-indigo-500 
                 ${isSoldOut
                 ? "bg-red-600 text-white border-red-600 opacity-50 cursor-not-allowed"
-                : "bg-[#27337C] text-white border-[#27337C] cursor-pointer hover:bg-indigo-800"}`}
-            disabled={isSoldOut}
-            aria-disabled={isSoldOut}
+                : isUpcoming
+                    ? "bg-gray-400 text-white border-gray-400 opacity-50 cursor-not-allowed"
+                    : "bg-[#27337C] text-white border-[#27337C] cursor-pointer hover:bg-indigo-800"}`}
+            disabled={isSoldOut || isUpcoming}
+            aria-disabled={isSoldOut || isUpcoming}
         >
-            {isSoldOut ? "Sold Out" : "Buy Tickets"}
+            {isSoldOut ? "Sold Out" : isUpcoming ? "Upcoming Event" : "Buy Tickets"}
         </button>
     );
 
@@ -62,7 +88,7 @@ const EventCard: React.FC<EventCardProps> = ({
                         height={238}
                         className="object-cover w-full rounded-md aspect-[1.18]"
                     />
-                    <div className="px-2 justify-between">
+                    <div className="px-2 justify-between min-h-[135px]">
                         <h3 className="mt-4 text-xl font-medium groteskMedium text-[#011C2A]">{title}</h3>
                         <div className="flex gap-4 sm:gap-6 mt-4">
                             <div className="flex gap-3 text-xs font-inter font-medium text-[#6B7280]">
@@ -97,10 +123,18 @@ const EventCard: React.FC<EventCardProps> = ({
                             />
                             <p>{location}</p>
                         </div>
-                        <div className="flex gap-2 mt-4 font-semibold ">
-                            <p className="text-xl groteskSemiBold font-semibold text-[#011C2A]">{price}</p>
-                            <p className="text-xs text-gray-500 self-center">Upwards</p>
-                        </div>
+                        {/*<div className="flex gap-2 mt-4 font-semibold ">*/}
+                        {/*    <p className="text-xl groteskSemiBold font-semibold text-[#011C2A]">{price}</p>*/}
+                        {/*    <p className="text-xs text-gray-500 self-center">Upwards</p>*/}
+                        {/*</div>*/}
+                        {
+                            upcoming_event === 0 && (
+                                <div className="flex gap-2 mt-4 font-semibold ">
+                                    <p className="text-xl groteskSemiBold font-semibold text-[#011C2A]">{price}</p>
+                                    <p className="text-xs text-gray-500 self-center">Upwards</p>
+                                </div>
+                            )
+                        }
                     </div>
                 </div>
                 {/*<Link href={isSoldOut ? "" : `/events/${slug}`}>*/}
@@ -114,7 +148,8 @@ const EventCard: React.FC<EventCardProps> = ({
                 {/*    </button>*/}
                 {/*</Link>*/}
 
-                {isSoldOut ? button : <Link href={`/events/${slug}`}>{button}</Link>}
+                {/*{isSoldOut ? button : <Link href={`/events/${slug}`}>{button}</Link>}*/}
+                {isSoldOut || isUpcoming ? button : <Link href={`/events/${slug}`}>{button}</Link>}
             </div>
         </article>
     );

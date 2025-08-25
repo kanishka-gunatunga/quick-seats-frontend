@@ -96,6 +96,7 @@ export interface Event {
     status: string;
     all_seats_booked: number;
     all_ticket_without_seats_booked: number;
+    upcoming_event: number;
 }
 
 export interface ApiEventResponse {
