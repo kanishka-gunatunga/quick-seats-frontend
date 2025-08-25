@@ -51,7 +51,10 @@ interface TicketFromEventPage {
     price: number;
     ticketCount: number | null;
     ticketTypeId: number;
+    hasTicketCount: boolean;
+    bookedTicketCount: number;
     ticketTypeName: string;
+    ticketColor: string;
 }
 
 interface StoredBookingData {
@@ -68,7 +71,7 @@ interface SeatData {
     status: string;
     type_id: number;
     ticketTypeName?: string;
-    color?: string;
+    color: string;
 }
 
 // interface TableRowData {

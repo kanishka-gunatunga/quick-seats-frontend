@@ -1,18 +1,18 @@
-import React, {useEffect, useState, useRef, useCallback, useMemo} from "react";
-import {TransformWrapper, TransformComponent, ReactZoomPanPinchRef} from "react-zoom-pan-pinch";
-import {useSelector, useDispatch} from "react-redux";
+import React, {useCallback, useEffect, useMemo, useRef, useState} from "react";
+import {ReactZoomPanPinchRef, TransformComponent, TransformWrapper} from "react-zoom-pan-pinch";
+import {useDispatch, useSelector} from "react-redux";
 import {
-    ZoomIn,
-    ZoomOut,
     Fullscreen,
-    KeyboardArrowUp,
+    KeyboardArrowDown,
     KeyboardArrowLeft,
     KeyboardArrowRight,
-    KeyboardArrowDown,
+    KeyboardArrowUp,
+    ZoomIn,
+    ZoomOut,
 } from "@mui/icons-material";
 import {Alert} from "@mui/material";
 import {useSeatSelectApi, useUnseatSelectApi} from "@/hooks/useBooking";
-import {selectSeats, unselectSeats} from "@/store/bookingSlice";
+import {selectEventTicketDetails, selectSeats, unselectSeats} from "@/store/bookingSlice";
 import {RootState} from "@/store/store";
 import {useQueryClient} from "@tanstack/react-query";
 import {Tooltip} from "react-tooltip";
@@ -23,7 +23,7 @@ interface SeatData {
     status: string;
     type_id: number;
     ticketTypeName?: string;
-    color?: string;
+    color: string;
 }
 
 interface SeatSelectionProps {
@@ -35,6 +35,7 @@ const SeatSelection: React.FC<SeatSelectionProps> = ({mapId, eventId}) => {
     const dispatch = useDispatch();
     const selectedSeats = useSelector((state: RootState) => state.booking.selectedSeats);
     const currentSeatData = useSelector((state: RootState) => state.booking.currentSeatData);
+    const eventTicketDetails = useSelector((state: RootState) => selectEventTicketDetails(state));
     const [svgRawContent, setSvgRawContent] = useState<string | null>(null);
     const transformComponentRef = useRef<ReactZoomPanPinchRef>(null);
     const [currentScale, setCurrentScale] = useState<number>(1);
@@ -209,17 +210,28 @@ const SeatSelection: React.FC<SeatSelectionProps> = ({mapId, eventId}) => {
 
             pathsInGroup.forEach((pathElement) => {
                 pathElement.classList.remove("fill-gray-400", "fill-red-500", "fill-blue-500", "cursor-not-allowed", "cursor-pointer");
+                pathElement.style.removeProperty("fill");
             });
 
             if (seatInfo) {
                 const isSelected = selectedSeats.some((s) => s.seatId === seatId);
-                if (seatInfo.status === "booked" || seatInfo.status === "unavailable") {
+                if (seatInfo.status === "booked") {
                     pathsInGroup.forEach((pathElement) => {
                         pathElement.classList.add("fill-red-500", "cursor-not-allowed");
                     });
+
+                } else if (seatInfo.status === "unavailable" && seatInfo.color) {
+                    pathsInGroup.forEach((pathElement) => {
+                        pathElement.classList.add("fill-[#660033]","cursor-not-allowed");
+                    });
                 } else if (isSelected) {
                     pathsInGroup.forEach((pathElement) => {
-                        pathElement.classList.add("fill-blue-500", "cursor-pointer");
+                        pathElement.classList.add("fill-[#ff6600]", "cursor-pointer");
+                    });
+                } else if (seatInfo.status === "available" && seatInfo.color) {
+                    pathsInGroup.forEach((pathElement) => {
+                        pathElement.style.fill = seatInfo.color; // Apply API-provided color
+                        pathElement.classList.add("cursor-pointer");
                     });
                 } else {
                     pathsInGroup.forEach((pathElement) => {
@@ -361,18 +373,28 @@ const SeatSelection: React.FC<SeatSelectionProps> = ({mapId, eventId}) => {
                 )}
             </TransformWrapper>
             <div
-                className="absolute left-1 bottom-1 z-10 bg-white p-3 rounded-xl shadow-lg border border-gray-200 backdrop-blur-sm bg-opacity-95">
-                <div className="flex gap-4 text-sm">
+                className="absolute left-1 bottom-1 z-10 bg-white/10 p-2 sm:p-3 md:p-4 rounded-xl shadow-lg backdrop-blur-sm max-w-full overflow-x-auto scrollbar-hidden scroll-smooth"
+            >
+                <div className="flex flex-nowrap overflow-x-auto min-h-[1.625rem] sm:min-h-[1.875rem] gap-2 sm:gap-3 items-center">
+                    {eventTicketDetails.map((ticket) => (
+                        <div key={ticket.ticketTypeId} className="flex items-center gap-2">
+                            <div
+                                className="w-4 h-4 rounded"
+                                style={{ backgroundColor: ticket.ticketColor }}
+                            ></div>
+                            <span>{ticket.ticketTypeName}</span>
+                        </div>
+                    ))}
                     <div className="flex items-center gap-2">
-                        <div className="w-4 h-4 bg-gray-400 rounded"></div>
-                        <span>Available</span>
-                    </div>
-                    <div className="flex items-center gap-2">
-                        <div className="w-4 h-4 bg-blue-500 rounded"></div>
+                        <div className="w-4 h-4 bg-[#ff6600] rounded"></div>
                         <span>Selected</span>
                     </div>
                     <div className="flex items-center gap-2">
                         <div className="w-4 h-4 bg-red-500 rounded"></div>
+                        <span>Booked</span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                        <div className="w-4 h-4 bg-[#660033] rounded"></div>
                         <span>Unavailable</span>
                     </div>
                 </div>
@@ -401,4 +423,3 @@ const SeatSelection: React.FC<SeatSelectionProps> = ({mapId, eventId}) => {
 };
 
 export default SeatSelection;
-
