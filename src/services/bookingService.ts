@@ -11,7 +11,7 @@ export interface SeatData {
     status: 'available' | 'booked' | 'selected' | 'unavailable';
     type_id: number;
     ticketTypeName?: string;
-    color?: string;
+    color: string;
 }
 
 interface RawSeatData {
@@ -20,7 +20,7 @@ interface RawSeatData {
     status?: string | null;
     type_id?: string | number | null;
     ticketTypeName?: string | null;
-    color?: string | null;
+    color: string;
 }
 
 
@@ -133,7 +133,7 @@ export const getEventSeats = async (id: string | Array<string> | undefined): Pro
                     status: status as SeatData['status'],
                     type_id: parseInt(String(seat.type_id), 10) || 0,
                     ticketTypeName: seat.ticketTypeName || undefined,
-                    color: seat.color || undefined,
+                    color: seat.color,
                 };
             })
             .filter((seat: SeatData) => seat.seatId && seat.seatId.trim() !== "");
